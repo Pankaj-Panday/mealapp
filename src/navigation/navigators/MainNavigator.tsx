@@ -1,9 +1,10 @@
-import { StyleSheet } from 'react-native';
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainTabNavigator from './MainTabNavigator';
+import CategoryScreen from '../../screens/CategoryScreen';
+import { MainRoutes, MainStackParamList } from '../../types/routes';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<MainStackParamList>();
 
 export default function MainNavigator() {
   return (
@@ -12,9 +13,8 @@ export default function MainNavigator() {
         headerShown: false,
       }}
     >
-      <Stack.Screen name={'MainTabs'} component={MainTabNavigator} />
+      <Stack.Screen name={'Tabs'} component={MainTabNavigator} />
+      <Stack.Screen name={MainRoutes.Category} component={CategoryScreen} />
     </Stack.Navigator>
   );
 }
-
-const styles = StyleSheet.create({});

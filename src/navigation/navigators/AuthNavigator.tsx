@@ -1,11 +1,11 @@
 import { StyleSheet } from 'react-native';
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { AuthRoutes } from '../routes';
 import LoginScreen from '../../screens/LoginScreen';
 import SignUpScreen from '../../screens/SignUpScreen';
+import { AuthRoutes, AuthStackParamList } from '../../types/routes';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<AuthStackParamList>();
 
 export default function AuthNavigator() {
   return (

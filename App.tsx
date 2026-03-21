@@ -9,6 +9,9 @@ import {
   setIsNavigationReady,
 } from './src/navigation/navigation';
 import RootNavigator from './src/navigation/navigators/RootNavigator';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -16,7 +19,9 @@ function App() {
   return (
     <SafeAreaProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
+      <QueryClientProvider client={queryClient}>
+        <AppContent />
+      </QueryClientProvider>
     </SafeAreaProvider>
   );
 }

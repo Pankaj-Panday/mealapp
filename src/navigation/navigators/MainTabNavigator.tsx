@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MainRoutes } from '../routes';
 import HomeScreen from '../../screens/HomeScreen';
 import StoreScreen from '../../screens/StoreScreen';
 import FontAwesome from '@react-native-vector-icons/fontawesome';
+import { MainRoutes, MainTabParamList } from '../../types/routes';
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<MainTabParamList>();
 
 export default function MainTabNavigator() {
   return (
