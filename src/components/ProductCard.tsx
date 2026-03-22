@@ -4,6 +4,7 @@ import { Product } from '../types/product';
 import { useNavigation } from '@react-navigation/native';
 import AnimatedPressable from './AnimatedPressable';
 import Ionicons from '@react-native-vector-icons/ionicons';
+import { useCartStore } from '../store/useCartStore';
 
 type Props = {
   product: Product;
@@ -16,8 +17,23 @@ const PRODUCT_CARD_WIDTH = (screenWidth - GAP * 3) / 2;
 export default React.memo(function ProductCard({ product }: Props) {
   const navigation = useNavigation();
 
-  const quantity = 1;
-  const unit = 'pack';
+  const displayUnit = '1 pack';
+
+  const quantity = useCartStore(
+    state => state.items.find(item => item.id === product.id)?.quantity || 0,
+  );
+
+  const updateQuantity = useCartStore(state => state.updateQuantity);
+
+  const handleIncrement = () => {
+    updateQuantity(product.id, 1);
+  };
+
+  const handleDecrement = () => {
+    updateQuantity(product.id, -1);
+  };
+
+  const handleAddItem = () => {};
 
   return (
     <AnimatedPressable
@@ -39,7 +55,7 @@ export default React.memo(function ProductCard({ product }: Props) {
             numberOfLines={1}
             className="text-gray-600 text-[11px] font-semibold"
           >
-            {quantity} {unit}
+            {displayUnit}
           </Text>
         </View>
 
@@ -58,18 +74,43 @@ export default React.memo(function ProductCard({ product }: Props) {
           </Text>
         </View>
 
-        <View className="mt-2 flex-row items-center justify-between">
-          <View className="flex-row items-baseline">
-            <Text className="text-[16px] font-extrabold text-slate-900">
-              ₹{Number(product.price).toFixed(2)}
-            </Text>
+        <View className="mt-3 flex-row items-center justify-between gap-2">
+          <Text className="text-[16px] font-extrabold text-slate-900">
+            ₹{Number(product.price).toFixed(2)}
+          </Text>
 
-            <Text className="ml-1 text-[11px] text-gray-500">/ {unit}</Text>
-          </View>
+          {quantity > 0 ? (
+            <View className="w-[96px] h-[34px] flex-row items-center justify-between px-2 rounded-full border border-emerald-100">
+              <Pressable
+                onPress={handleDecrement}
+                className="w-6 items-center justify-center"
+              >
+                <Text className="text-lg font-black text-emerald-600">−</Text>
+              </Pressable>
 
-          <Pressable className="px-2.5 py-1 rounded-md bg-green-600">
-            <Text className="text-[11px] font-semibold text-white">ADD</Text>
-          </Pressable>
+              <View className="items-center justify-center">
+                <Text className="text-xs font-extrabold text-emerald-700">
+                  {quantity}
+                </Text>
+              </View>
+
+              <Pressable
+                onPress={handleIncrement}
+                className="w-6 items-center justify-center"
+              >
+                <Text className="text-base font-black text-emerald-600">+</Text>
+              </Pressable>
+            </View>
+          ) : (
+            <Pressable
+              onPress={handleAddItem}
+              className="w-[96px] h-[34px] px-2 py-1.5 rounded-full border border-emerald-100 items-center justify-center"
+            >
+              <Text className="text-xs font-extrabold tracking-tighter text-emerald-600">
+                ADD
+              </Text>
+            </Pressable>
+          )}
         </View>
       </View>
 

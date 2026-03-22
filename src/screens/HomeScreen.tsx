@@ -97,7 +97,6 @@ export default function HomeScreen({ navigation, route }: Props) {
                     onPress={() =>
                       navigation.navigate(MainRoutes.Category, {
                         categoryId: item.id,
-                        categoryName: item.name,
                       })
                     }
                   />

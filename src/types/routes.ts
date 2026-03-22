@@ -30,7 +30,7 @@ export type MainStackParamList = {
   Tabs: NavigatorScreenParams<MainTabParamList>;
   [MainRoutes.Home]: undefined;
   [MainRoutes.Store]: undefined;
-  [MainRoutes.Category]: { categoryId: string; categoryName: string };
+  [MainRoutes.Category]: { categoryId: string };
 };
 
 export type RootStackParamList = {

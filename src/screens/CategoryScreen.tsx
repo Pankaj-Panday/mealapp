@@ -1,4 +1,12 @@
-import { FlatList, Pressable, StatusBar, Text, View } from 'react-native';
+import {
+  FlatList,
+  Modal,
+  Pressable,
+  ScrollView,
+  StatusBar,
+  Text,
+  View,
+} from 'react-native';
 import React, { useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MainRoutes, MainStackParamList } from '../types/routes';
@@ -11,7 +19,7 @@ import ProductCard from '../components/ProductCard';
 type Props = NativeStackScreenProps<MainStackParamList, MainRoutes.Category>;
 
 export default function CategoryScreen({ navigation, route }: Props) {
-  const { categoryId, categoryName } = route.params;
+  const { categoryId } = route.params;
 
   const {
     data: categoriesData,
@@ -23,19 +31,19 @@ export default function CategoryScreen({ navigation, route }: Props) {
   });
 
   const categories = categoriesData?.data || [];
-  const [selectedCategoryName, setSelectedCategoryName] = useState(
-    categoryName || categories[0]?.name,
-  );
+  const [selectedCategoryId, setSelectedCategoryId] = useState(categoryId);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const selectedCategory = categories.find(c => c.id === selectedCategoryId);
 
   const {
     data: productsData,
     isLoading: isProductsLoading,
     error: productsError,
   } = useQuery({
-    queryKey: ['products', categoryId],
-    queryFn: () => fetchProductsByCategory(categoryId),
-    enabled: !!categoryId,
+    queryKey: ['products', selectedCategoryId],
+    queryFn: () => fetchProductsByCategory(selectedCategoryId),
+    enabled: !!selectedCategoryId,
   });
 
   const products = productsData?.data || [];
@@ -55,7 +63,7 @@ export default function CategoryScreen({ navigation, route }: Props) {
               onPress={() => setModalVisible(true)}
               className="flex-row items-center gap-1 ml-3"
             >
-              <Text>{selectedCategoryName}</Text>
+              <Text>{selectedCategory?.name}</Text>
               <Ionicons name="chevron-down" size={18} color="black" />
             </Pressable>
           </View>
@@ -87,6 +95,93 @@ export default function CategoryScreen({ navigation, route }: Props) {
           renderItem={({ item }) => <ProductCard product={item} />}
         />
       </View>
+
+      {/* Modal */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View className="flex-1 justify-center bg-black/40 px-6">
+          <View className="bg-white rounded-3xl max-h-[70%] p-5">
+            {/* Header */}
+            <Text className="text-xl font-bold mb-4 text-gray-800">
+              Categories
+            </Text>
+
+            {/* Category List */}
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ paddingBottom: 10 }}
+            >
+              {categories.map(category => {
+                const isSelected = selectedCategoryId === category.id;
+
+                return (
+                  <Pressable
+                    key={category.id}
+                    onPress={() => {
+                      setSelectedCategoryId(category.id);
+                      setModalVisible(false);
+                    }}
+                    className="flex-row items-center justify-between px-4 py-3 mb-2 rounded-xl border"
+                    style={{
+                      backgroundColor: isSelected ? '#ECFDF5' : '#F9FAFB',
+                      borderColor: isSelected ? '#10B981' : '#E5E7EB',
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        fontWeight: isSelected ? '600' : '400',
+                        color: '#1F2937',
+                      }}
+                    >
+                      {category.name}
+                    </Text>
+
+                    {/* Selection indicator */}
+                    <View
+                      className="h-5 w-5 rounded-full border items-center justify-center"
+                      style={{
+                        borderColor: isSelected ? '#10B981' : '#9CA3AF',
+                      }}
+                    >
+                      {isSelected && (
+                        <View
+                          className="h-2.5 w-2.5 rounded-full"
+                          style={{ backgroundColor: '#10B981' }}
+                        />
+                      )}
+                    </View>
+                  </Pressable>
+                );
+              })}
+            </ScrollView>
+
+            {/* Close Button */}
+            <Pressable
+              onPress={() => setModalVisible(false)}
+              className="py-3 rounded-xl mt-4"
+              style={{
+                backgroundColor: '#EF4444',
+              }}
+            >
+              <Text
+                style={{
+                  color: 'white',
+                  fontSize: 16,
+                  fontWeight: '600',
+                  textAlign: 'center',
+                }}
+              >
+                Close
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
