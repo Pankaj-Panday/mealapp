@@ -15,6 +15,7 @@ import { fetchCategories, fetchProductsByCategory } from '../api/categories';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@react-native-vector-icons/ionicons';
 import ProductCard from '../components/ProductCard';
+import CartBottombar from '../components/CartBottombar';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoutes.Category>;
 
@@ -47,6 +48,8 @@ export default function CategoryScreen({ navigation, route }: Props) {
   });
 
   const products = productsData?.data || [];
+
+  console.log('products', products);
 
   return (
     <SafeAreaView className="flex-1 bg-gray-100">
@@ -95,6 +98,8 @@ export default function CategoryScreen({ navigation, route }: Props) {
           renderItem={({ item }) => <ProductCard product={item} />}
         />
       </View>
+
+      <CartBottombar />
 
       {/* Modal */}
       <Modal

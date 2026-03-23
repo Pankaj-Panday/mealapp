@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import AnimatedPressable from './AnimatedPressable';
 import Ionicons from '@react-native-vector-icons/ionicons';
 import { useCartStore } from '../store/useCartStore';
+import QuantityStepper from './QuantityStepper';
 
 type Props = {
   product: Product;
@@ -24,6 +25,7 @@ export default React.memo(function ProductCard({ product }: Props) {
   );
 
   const updateQuantity = useCartStore(state => state.updateQuantity);
+  const addItem = useCartStore(state => state.addItem);
 
   const handleIncrement = () => {
     updateQuantity(product.id, 1);
@@ -33,7 +35,14 @@ export default React.memo(function ProductCard({ product }: Props) {
     updateQuantity(product.id, -1);
   };
 
-  const handleAddItem = () => {};
+  const handleAddItem = () => {
+    addItem({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      imageUrl: product.imageUrl,
+    });
+  };
 
   return (
     <AnimatedPressable
@@ -80,31 +89,15 @@ export default React.memo(function ProductCard({ product }: Props) {
           </Text>
 
           {quantity > 0 ? (
-            <View className="w-[96px] h-[34px] flex-row items-center justify-between px-2 rounded-full border border-emerald-100">
-              <Pressable
-                onPress={handleDecrement}
-                className="w-6 items-center justify-center"
-              >
-                <Text className="text-lg font-black text-emerald-600">−</Text>
-              </Pressable>
-
-              <View className="items-center justify-center">
-                <Text className="text-xs font-extrabold text-emerald-700">
-                  {quantity}
-                </Text>
-              </View>
-
-              <Pressable
-                onPress={handleIncrement}
-                className="w-6 items-center justify-center"
-              >
-                <Text className="text-base font-black text-emerald-600">+</Text>
-              </Pressable>
-            </View>
+            <QuantityStepper
+              quantity={quantity}
+              onIncrement={handleIncrement}
+              onDecrement={handleDecrement}
+            />
           ) : (
             <Pressable
               onPress={handleAddItem}
-              className="w-[96px] h-[34px] px-2 py-1.5 rounded-full border border-emerald-100 items-center justify-center"
+              className="flex-1 h-[34px] px-2 py-1.5 rounded-full border border-emerald-100 items-center justify-center"
             >
               <Text className="text-xs font-extrabold tracking-tighter text-emerald-600">
                 ADD

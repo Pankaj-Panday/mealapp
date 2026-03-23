@@ -9,6 +9,7 @@ export enum MainRoutes {
   Home = 'Home',
   Store = 'Store',
   Category = 'Category',
+  Cart = 'Cart',
 }
 
 export enum AuthRoutes {
@@ -31,6 +32,7 @@ export type MainStackParamList = {
   [MainRoutes.Home]: undefined;
   [MainRoutes.Store]: undefined;
   [MainRoutes.Category]: { categoryId: string };
+  [MainRoutes.Cart]: undefined;
 };
 
 export type RootStackParamList = {
