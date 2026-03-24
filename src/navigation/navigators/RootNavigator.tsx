@@ -7,7 +7,7 @@ import { RootRoutes, RootStackParamList } from '../../types/routes';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {
-  const isAuthenticated = true;
+  const isAuthenticated = false;
   return (
     <Stack.Navigator
       screenOptions={{
