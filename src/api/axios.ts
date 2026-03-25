@@ -10,6 +10,23 @@ export const api = axios.create({
   },
 });
 
+let authInterceptorId: number | null = null;
+
+export const setAuthToken = (token: string | null) => {
+  if (authInterceptorId) {
+    api.interceptors.request.eject(authInterceptorId);
+  }
+  if (token) {
+    authInterceptorId = api.interceptors.request.use(async config => {
+      config.headers = config.headers || {};
+      config.headers.Authorization = `Bearer ${token}`;
+      return config;
+    });
+  } else {
+    delete api.defaults.headers.common['Authorization'];
+  }
+};
+
 api.interceptors.request.use(
   async config => {
     const token = await AsyncStorage.getItem('token');

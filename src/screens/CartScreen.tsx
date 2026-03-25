@@ -1,16 +1,25 @@
-import { FlatList, Text, View } from 'react-native';
+import { FlatList, Pressable, Text, View } from 'react-native';
 import React from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MainRoutes, MainStackParamList } from '../types/routes';
 import { useCartStore } from '../store/useCartStore';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import CartItem from '../components/CartItem';
 import ExclusiveDeals from '../components/ExclusiveDeals';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoutes.Cart>;
 
 export default function CartScreen({ navigation, route }: Props) {
+  const insets = useSafeAreaInsets();
   const items = useCartStore(state => state.items);
+  const totalItems = useCartStore(state => state.getTotalItems());
+  const totalPrice = useCartStore(state => state.getTotalPrice());
+
+  console.log('totalItems', totalItems);
+  console.log('totalPrice', totalPrice);
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
@@ -29,6 +38,20 @@ export default function CartScreen({ navigation, route }: Props) {
         renderItem={({ item }) => <CartItem item={item} />}
         ListFooterComponent={<ExclusiveDeals />}
       />
+
+      {totalItems > 0 && (
+        <View
+          style={{ bottom: insets.bottom + 10 }}
+          className="absolute left-4 right-4 bg-gray-600 flex-row justify-between items-center px-4 py-3 rounded-xl shadow-lg"
+        >
+          <Text>
+            {totalItems} items | ₹{totalPrice}
+          </Text>
+          <Pressable>
+            <Text>Proceed to Checkout</Text>
+          </Pressable>
+        </View>
+      )}
     </SafeAreaView>
   );
 }

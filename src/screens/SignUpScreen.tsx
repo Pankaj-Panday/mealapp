@@ -1,4 +1,5 @@
 import {
+  Alert,
   Pressable,
   ScrollView,
   Text,
@@ -11,6 +12,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AuthRoutes, AuthStackParamList } from '../types/routes';
 import { Controller, useForm } from 'react-hook-form';
 import { SignupFormValues } from '../types/auth';
+import { signUp } from '../api/auth';
+import Logger from '../utils/logger';
+import { useAuthStore } from '../store/useAuthStore';
 
 type Props = NativeStackScreenProps<AuthStackParamList, AuthRoutes.SignUp>;
 
@@ -26,6 +30,19 @@ export default function SignUpScreen({ navigation, route }: Props) {
       password: '',
     },
   });
+
+  const setAuth = useAuthStore(state => state.setAuth);
+
+  const onSubmit = async (data: SignupFormValues) => {
+    try {
+      const { data: user, token } = await signUp(data);
+      Logger.info('SignUpScreen: User signed up successfully', { user, token });
+      setAuth(user, token);
+    } catch (error: any) {
+      Logger.error('SignUpScreen: Error signing up', error);
+      Alert.alert('Error', error?.response?.data?.error || 'Failed to sign up');
+    }
+  };
 
   return (
     <ScrollView
@@ -102,7 +119,11 @@ export default function SignUpScreen({ navigation, route }: Props) {
         control={control}
         name="phone"
         rules={{
-          required: 'Phone is required',
+          required: 'Phone Number is required',
+          pattern: {
+            value: /^[0-9]{10}$/,
+            message: 'Phone Number must be 10 digits',
+          },
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
@@ -120,7 +141,10 @@ export default function SignUpScreen({ navigation, route }: Props) {
         <Text className="text-red-500 mt-2">{errors?.phone?.message}</Text>
       )}
 
-      <TouchableOpacity className="bg-green-600 p-3 rounded-full mt-6">
+      <TouchableOpacity
+        onPress={handleSubmit(onSubmit)}
+        className="bg-green-600 p-3 rounded-full mt-6"
+      >
         <Text className="text-white text-center font-bold">Sign Up</Text>
       </TouchableOpacity>
 

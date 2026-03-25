@@ -49,8 +49,6 @@ export default function CategoryScreen({ navigation, route }: Props) {
 
   const products = productsData?.data || [];
 
-  console.log('products', products);
-
   return (
     <SafeAreaView className="flex-1 bg-gray-100">
       <StatusBar barStyle={'dark-content'} backgroundColor={'#fff'} />
