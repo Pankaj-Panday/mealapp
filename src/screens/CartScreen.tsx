@@ -1,5 +1,4 @@
 import { FlatList, Pressable, Text, View } from 'react-native';
-import React from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MainRoutes, MainStackParamList } from '../types/routes';
 import { useCartStore } from '../store/useCartStore';
@@ -17,9 +16,6 @@ export default function CartScreen({ navigation, route }: Props) {
   const items = useCartStore(state => state.items);
   const totalItems = useCartStore(state => state.getTotalItems());
   const totalPrice = useCartStore(state => state.getTotalPrice());
-
-  console.log('totalItems', totalItems);
-  console.log('totalPrice', totalPrice);
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
@@ -42,13 +38,18 @@ export default function CartScreen({ navigation, route }: Props) {
       {totalItems > 0 && (
         <View
           style={{ bottom: insets.bottom + 10 }}
-          className="absolute left-4 right-4 bg-gray-600 flex-row justify-between items-center px-4 py-3 rounded-xl shadow-lg"
+          className="absolute left-4 right-4 bg-green-600 flex-row justify-between items-center px-4 py-3 rounded-xl shadow-lg"
         >
-          <Text>
+          <Text className="text-white text-base font-semibold">
             {totalItems} items | ₹{totalPrice}
           </Text>
-          <Pressable>
-            <Text>Proceed to Checkout</Text>
+          <Pressable
+            className="bg-white px-4 py-2 rounded-lg"
+            onPress={() => navigation.navigate(MainRoutes.Checkout)}
+          >
+            <Text className="text-green-600 font-bold">
+              Proceed to Checkout
+            </Text>
           </Pressable>
         </View>
       )}

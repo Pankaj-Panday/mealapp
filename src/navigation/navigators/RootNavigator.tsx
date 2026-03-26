@@ -4,18 +4,23 @@ import AuthNavigator from './AuthNavigator';
 import MainNavigator from './MainNavigator';
 import { RootRoutes, RootStackParamList } from '../../types/routes';
 import { useAuthStore } from '../../store/useAuthStore';
+import SplashScreen from '../../screens/SplashScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
   const token = useAuthStore(state => state.token);
-  const [isLoding, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useAuthStore.persist.onFinishHydration(() => {
     console.log('Auth state hydration finished', { isAuthenticated, token });
     setIsLoading(false);
   });
+
+  if (isLoading) {
+    return <SplashScreen />;
+  }
 
   return (
     <Stack.Navigator

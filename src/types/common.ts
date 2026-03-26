@@ -8,3 +8,5 @@ export type PaginationMeta = {
 export type PaginationParams = Partial<
   Omit<PaginationMeta, 'total' | 'totalPages'>
 >;
+
+export type PaymentMethod = 'COD' | 'ONLINE';
