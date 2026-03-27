@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import React, { useState } from 'react';
 import { useAddressStore } from '../../store/useAddressStore';
 import SlotSection from './SlotSection';
@@ -6,7 +6,11 @@ import AddressSection from './AddressSection';
 import PaymentMethodSelect from './PaymentMethodSelect';
 import { PaymentMethod } from '../../types/common';
 
-export default function Header() {
+type Props = {
+  onAddressChangeBtnClick: () => void;
+};
+
+export default function Header({ onAddressChangeBtnClick }: Props) {
   const addresses = useAddressStore(state => state.addresses);
   const selectedAddressId = useAddressStore(state => state.selectedAddressId);
   const [notes, setNotes] = useState('');
@@ -24,7 +28,10 @@ export default function Header() {
     addresses.find(a => a.id === selectedAddressId) ?? addresses[0];
   return (
     <View>
-      <AddressSection address={selectedAddress} />
+      <AddressSection
+        address={selectedAddress}
+        onAddressChangeBtnClick={onAddressChangeBtnClick}
+      />
       <SlotSection
         slotOptions={slotOptions}
         selectedSlot={deliverySlot}
@@ -44,5 +51,3 @@ export default function Header() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({});

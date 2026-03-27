@@ -5,6 +5,7 @@ import CategoryScreen from '../../screens/CategoryScreen';
 import { MainRoutes, MainStackParamList } from '../../types/routes';
 import CartScreen from '../../screens/CartScreen';
 import CheckoutScreen from '../../screens/CheckoutScreen';
+import ProfileScreen from '../../screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
@@ -19,6 +20,7 @@ export default function MainNavigator() {
       <Stack.Screen name={MainRoutes.Category} component={CategoryScreen} />
       <Stack.Screen name={MainRoutes.Cart} component={CartScreen} />
       <Stack.Screen name={MainRoutes.Checkout} component={CheckoutScreen} />
+      <Stack.Screen name={MainRoutes.Profile} component={ProfileScreen} />
     </Stack.Navigator>
   );
 }

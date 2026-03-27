@@ -5,9 +5,13 @@ import { Address } from '../../types/address';
 
 type Props = {
   address: Address;
+  onAddressChangeBtnClick: () => void;
 };
 
-export default function AddressSection({ address }: Props) {
+export default function AddressSection({
+  address,
+  onAddressChangeBtnClick,
+}: Props) {
   return (
     <View>
       <Text className="text-gray-700 font-semibold mt-6 mb-3">Deliver to</Text>
@@ -26,7 +30,10 @@ export default function AddressSection({ address }: Props) {
                 </Text>
               </View>
 
-              <Pressable className="px-2 py-1">
+              <Pressable
+                className="px-2 py-1"
+                onPress={onAddressChangeBtnClick}
+              >
                 <Text className="text-purple-600 font-semibold">Change</Text>
               </Pressable>
             </View>

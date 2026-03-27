@@ -2,11 +2,13 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { MainStackParamsList } from '../navigation/routes';
 import Ionicons from '@react-native-vector-icons/ionicons';
+import { MainRoutes, MainStackParamList } from '../types/routes';
 
 export default function Header() {
-  const nav = useNavigation<NativeStackNavigationProp<MainStackParamsList>>();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+
   return (
     <View className="px-4 pb-4 rounded-b-2xl">
       <Text className="text-white text-sm">Delivery Starting in</Text>
@@ -33,7 +35,7 @@ export default function Header() {
             <Ionicons name="heart-outline" size={22} color="white" />
           </Pressable>
 
-          <Pressable>
+          <Pressable onPress={() => navigation.navigate(MainRoutes.Profile)}>
             <Ionicons name="person-outline" size={22} color="white" />
           </Pressable>
         </View>

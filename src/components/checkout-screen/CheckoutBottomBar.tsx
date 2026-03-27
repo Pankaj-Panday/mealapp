@@ -9,7 +9,7 @@ type Props = {
   onPress?: () => void;
 };
 
-export default function CheckoutFooter({
+export default function CheckoutBottomBar({
   totalItems,
   totalPrice,
   isProcessing,

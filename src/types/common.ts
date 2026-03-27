@@ -1,3 +1,5 @@
+import Ionicons from '@react-native-vector-icons/ionicons';
+
 export type PaginationMeta = {
   page: number;
   limit: number;
@@ -10,3 +12,16 @@ export type PaginationParams = Partial<
 >;
 
 export type PaymentMethod = 'COD' | 'ONLINE';
+
+export type IconName = React.ComponentProps<typeof Ionicons>['name'];
+
+export type MenuItem =
+  | {
+      type: 'divider';
+    }
+  | {
+      type: 'item';
+      icon: IconName;
+      title: string;
+      subtitle?: string;
+    };
