@@ -49,6 +49,15 @@ export default function AddressRow({
               {address.locality} - {address.pincode}
             </Text>
           </View>
+
+          <View className="flex-row mt-3">
+            <Pressable className="mr-4">
+              <Text className="font-semibold text-purple-600">Edit</Text>
+            </Pressable>
+            <Pressable onPress={() => onRemove(address.id)}>
+              <Text className="font-semibold text-purple-600">Remove</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
     </Pressable>

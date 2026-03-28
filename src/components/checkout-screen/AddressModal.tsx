@@ -10,6 +10,10 @@ import React, { useState } from 'react';
 import Ionicons from '@react-native-vector-icons/ionicons';
 import { useAddressStore } from '../../store/useAddressStore';
 import AddressRow from './AddressRow';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { MainRoutes, MainStackParamList } from '../../types/routes';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type Props = {
   visible: boolean;
@@ -22,7 +26,12 @@ export default function AddressModal({ visible, onClose }: Props) {
   const removeAddress = useAddressStore(state => state.removeAddress);
   const selectAddress = useAddressStore(state => state.selectAddress);
 
+  const navigation =
+    useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+
   const [query, setQuery] = useState('');
+
+  const insets = useSafeAreaInsets();
 
   const filteredAddresses = addresses.filter(
     a =>
@@ -69,6 +78,28 @@ export default function AddressModal({ visible, onClose }: Props) {
               />
             )}
           />
+
+          <Pressable
+            className="mt-2 border border-dashed border-purple-600 rounded-lg p-3"
+            onPress={() => {
+              onClose();
+              navigation.navigate(MainRoutes.AddAddress);
+            }}
+          >
+            <Text className="text-purple-600 text-center font-semibold uppercase">
+              + Add New Address
+            </Text>
+          </Pressable>
+
+          <Pressable
+            className="bg-green-600 rounded-2xl p-3 mt-4"
+            style={{
+              marginBottom: insets.bottom,
+            }}
+            onPress={onClose}
+          >
+            <Text className="text-white text-center font-bold">DONE</Text>
+          </Pressable>
         </View>
       </View>
     </Modal>

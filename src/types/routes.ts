@@ -12,6 +12,7 @@ export enum MainRoutes {
   Cart = 'Cart',
   Checkout = 'Checkout',
   Profile = 'Profile',
+  AddAddress = 'AddAddress',
 }
 
 export enum AuthRoutes {
@@ -31,12 +32,11 @@ export type MainTabParamList = {
 
 export type MainStackParamList = {
   Tabs: NavigatorScreenParams<MainTabParamList>;
-  [MainRoutes.Home]: undefined;
-  [MainRoutes.Store]: undefined;
   [MainRoutes.Category]: { categoryId: string };
   [MainRoutes.Cart]: undefined;
   [MainRoutes.Checkout]: undefined;
   [MainRoutes.Profile]: undefined;
+  [MainRoutes.AddAddress]: undefined;
 };
 
 export type RootStackParamList = {

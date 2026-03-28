@@ -1,7 +1,7 @@
 export type Address = {
   id: string;
   name: string;
-  type: string;
+  type: AddressType;
   mobile: string;
   flatNo: string;
   buildingName: string;
@@ -11,6 +11,8 @@ export type Address = {
   locality: string;
 };
 
+export type AddressType = 'Home' | 'Work' | 'Other';
+
 export type AddressState = {
   addresses: Address[];
   selectedAddressId: string | null;
@@ -18,4 +20,15 @@ export type AddressState = {
   updateAddress: (id: string, address: Partial<Address>) => void;
   removeAddress: (id: string) => void;
   selectAddress: (id: string) => void;
+};
+
+export type AddressFormValues = {
+  name: string;
+  mobile: string;
+  flatNo: string;
+  buildingName: string;
+  street: string;
+  landmark: string;
+  locality: string;
+  pincode: string;
 };
