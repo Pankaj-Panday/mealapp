@@ -13,6 +13,7 @@ import {
   Path,
   RegisterOptions,
 } from 'react-hook-form';
+import { cn } from '../utils/cn';
 
 type Props<T extends FieldValues> = {
   label: string;
@@ -20,6 +21,11 @@ type Props<T extends FieldValues> = {
   control: Control<T>;
   icon?: React.ReactNode;
   rules?: RegisterOptions<T, Path<T>>;
+  containerClassName?: string;
+  labelClassName?: string;
+  inputContainerClassName?: string;
+  inputClassName?: string;
+  errorClassName?: string;
 } & TextInputProps;
 
 export default function FormInput<T extends FieldValues>({
@@ -28,11 +34,18 @@ export default function FormInput<T extends FieldValues>({
   control,
   icon,
   rules,
+  containerClassName = '',
+  labelClassName = '',
+  inputContainerClassName = '',
+  inputClassName = '',
+  errorClassName = '',
   ...textInputProps
 }: Props<T>) {
   return (
-    <View className="mb-2">
-      <Text className="mb-1 text-sm text-gray-500 font-bold uppercase">
+    <View className={cn('mb-2', containerClassName)}>
+      <Text
+        className={cn('mb-1 text-sm text-gray-500 font-bold', labelClassName)}
+      >
         {label}
       </Text>
 
@@ -42,11 +55,16 @@ export default function FormInput<T extends FieldValues>({
         rules={rules}
         render={({ field: { onChange, onBlur, value }, fieldState }) => (
           <>
-            <View className="flex-row items-center border-b border-gray-300">
+            <View
+              className={cn(
+                'flex-row items-center border-b border-gray-300',
+                inputContainerClassName,
+              )}
+            >
               {icon && <View className="mr-2">{icon}</View>}
 
               <TextInput
-                className="flex-1 py-2"
+                className={cn('flex-1 py-2', inputClassName)}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -56,7 +74,7 @@ export default function FormInput<T extends FieldValues>({
             </View>
 
             {fieldState.error && (
-              <Text className="text-red-500 text-xs mt-1">
+              <Text className={cn('text-red-500 text-xs mt-1', errorClassName)}>
                 {fieldState.error.message}
               </Text>
             )}

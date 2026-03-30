@@ -4,24 +4,24 @@ import { MainStackParamList, MainRoutes } from '../types/routes';
 import { useAddressStore } from '../store/useAddressStore';
 import { useState } from 'react';
 import { AddressFormValues, AddressType } from '../types/address';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import FormInput from '../components/FormInput';
 import { useForm } from 'react-hook-form';
 import FontAwesome from '@react-native-vector-icons/fontawesome';
+import { cn } from '../utils/cn';
+import AddressTypeButton from '../components/add-address-screen/AddressTypeButton';
 
 type Props = NativeStackScreenProps<MainStackParamList, MainRoutes.AddAddress>;
 
 export default function AddAddressScreen({ navigation, route }: Props) {
   const addAddress = useAddressStore(state => state.addAddress);
+  const addressTypes: AddressType[] = ['Home', 'Work', 'Other'];
+  const insets = useSafeAreaInsets();
+
   const [type, setType] = useState<AddressType>('Home');
-  const [name, setName] = useState('');
-  const [mobile, setMobile] = useState('');
-  const [flatNo, setFlatNo] = useState('');
-  const [buildingName, setBuildingName] = useState('');
-  const [street, setStreet] = useState('');
-  const [landmark, setLandmark] = useState('');
-  const [locality, setLocality] = useState('');
-  const [pincode, setPincode] = useState('');
 
   const { handleSubmit, control } = useForm<AddressFormValues>({
     defaultValues: {
@@ -36,8 +36,17 @@ export default function AddAddressScreen({ navigation, route }: Props) {
     },
   });
 
+  const onSubmit = (data: AddressFormValues) => {
+    console.log(data, type);
+    addAddress({
+      ...data,
+      type,
+    });
+    navigation.goBack();
+  };
+
   return (
-    <SafeAreaView className="bg-white flex-1">
+    <SafeAreaView className="bg-white flex-1 border">
       <ScrollView className="p-4">
         <Text className="text-lg font-bold mb-6">New Address</Text>
 
@@ -80,7 +89,7 @@ export default function AddAddressScreen({ navigation, route }: Props) {
 
             <View className="flex-1">
               <FormInput
-                label="Building"
+                label="Building (Optional)"
                 name="buildingName"
                 control={control}
                 placeholder="Building name"
@@ -136,20 +145,33 @@ export default function AddAddressScreen({ navigation, route }: Props) {
           </View>
         </View>
 
-        {/* Submit button */}
-        <View className="mt-6">
-          <Pressable
-            className="bg-green-600 py-3 rounded-lg items-center"
-            onPress={handleSubmit(() => {
-              console.log('Form submitted');
-            })}
-          >
-            <Text className="text-white font-semibold text-base">
-              Save Address
-            </Text>
-          </Pressable>
+        <Text className="text-sm text-gray-500 mb-2 mt-4">SAVE AS</Text>
+        <View className="flex-row mb-6 gap-3">
+          {addressTypes.map(item => (
+            <AddressTypeButton
+              key={item}
+              label={item}
+              selected={type === item}
+              onPress={() => setType(item)}
+            />
+          ))}
         </View>
       </ScrollView>
+
+      {/* Submit button */}
+      <View
+        className="absolute left-0 right-0 py-3 px-4 bg-white border-t border-gray-200"
+        style={{ bottom: insets.bottom }}
+      >
+        <Pressable
+          className="bg-green-600 py-3 rounded-lg items-center"
+          onPress={handleSubmit(onSubmit)}
+        >
+          <Text className="text-white font-semibold text-base">
+            Save Address
+          </Text>
+        </Pressable>
+      </View>
     </SafeAreaView>
   );
 }

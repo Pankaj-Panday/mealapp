@@ -15,6 +15,8 @@ export type AuthState = {
   user: User | null;
   token: string | null;
   isAuthenticated: boolean;
+  hasHydrated: boolean;
+  setHasHydrated: (hasHydrated: boolean) => void;
   setAuth: (user: User, token: string) => void;
   logout: () => void;
 };

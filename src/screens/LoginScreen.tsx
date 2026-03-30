@@ -21,6 +21,7 @@ export default function LoginScreen({ navigation, route }: Props) {
       password: '',
     },
   });
+
   return (
     <View className="flex-1 bg-white p-4 justify-center">
       <Text className="text-2xl font-bold text-center text-green-600">

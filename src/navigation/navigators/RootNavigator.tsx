@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthNavigator from './AuthNavigator';
 import MainNavigator from './MainNavigator';
@@ -10,15 +10,9 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
-  const token = useAuthStore(state => state.token);
-  const [isLoading, setIsLoading] = useState(true);
+  const hasHydrated = useAuthStore(state => state.hasHydrated);
 
-  useAuthStore.persist.onFinishHydration(() => {
-    console.log('Auth state hydration finished', { isAuthenticated, token });
-    setIsLoading(false);
-  });
-
-  if (isLoading) {
+  if (!hasHydrated) {
     return <SplashScreen />;
   }
 

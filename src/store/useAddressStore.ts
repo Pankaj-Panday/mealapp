@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { AddressState } from '../types/address';
+import { Address, AddressState } from '../types/address';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -28,7 +28,7 @@ const intitialAddresses = [
     pincode: '201309',
     locality: 'Noida',
   },
-];
+] satisfies Address[];
 
 export const useAddressStore = create<AddressState>()(
   persist<AddressState>(

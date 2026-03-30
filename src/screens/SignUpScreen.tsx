@@ -15,6 +15,7 @@ import { SignupFormValues } from '../types/auth';
 import { signUp } from '../api/auth';
 import Logger from '../utils/logger';
 import { useAuthStore } from '../store/useAuthStore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Props = NativeStackScreenProps<AuthStackParamList, AuthRoutes.SignUp>;
 
@@ -31,6 +32,11 @@ export default function SignUpScreen({ navigation, route }: Props) {
     },
   });
 
+  const checkStorage = async () => {
+    const data = await AsyncStorage.getItem('auth-storage');
+    console.log('AsyncStorage auth-storage:', data);
+  };
+
   const setAuth = useAuthStore(state => state.setAuth);
 
   const onSubmit = async (data: SignupFormValues) => {
@@ -38,6 +44,7 @@ export default function SignUpScreen({ navigation, route }: Props) {
       const { data: user, token } = await signUp(data);
       Logger.info('SignUpScreen: User signed up successfully', { user, token });
       setAuth(user, token);
+      checkStorage();
     } catch (error: any) {
       Logger.error('SignUpScreen: Error signing up', error);
       Alert.alert('Error', error?.response?.data?.error || 'Failed to sign up');

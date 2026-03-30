@@ -17,7 +17,10 @@ export default function AddressRow({
   onRemove,
 }: Props) {
   return (
-    <Pressable className="bg-white rounded-lg p-4 mb-3 shadow">
+    <Pressable
+      onPress={() => onSelect(address.id)}
+      className="bg-white rounded-lg p-4 mb-3 shadow"
+    >
       <View className="flex-row">
         <View className="w-10 h-10 rounded-md bg-green-50 items-center justify-center mr-3">
           <Ionicons name="home-outline" size={20} color={'#16a34a'} />
