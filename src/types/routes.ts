@@ -1,4 +1,5 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
+import { CreateOrderApiResponse } from './apiResponse';
 
 export enum RootRoutes {
   Auth = 'Auth',
@@ -13,6 +14,7 @@ export enum MainRoutes {
   Checkout = 'Checkout',
   Profile = 'Profile',
   AddAddress = 'AddAddress',
+  OrderConfirmation = 'OrderConfirmation',
 }
 
 export enum AuthRoutes {
@@ -37,6 +39,7 @@ export type MainStackParamList = {
   [MainRoutes.Checkout]: undefined;
   [MainRoutes.Profile]: undefined;
   [MainRoutes.AddAddress]: undefined;
+  [MainRoutes.OrderConfirmation]: { order: CreateOrderApiResponse };
 };
 
 export type RootStackParamList = {

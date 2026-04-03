@@ -1,18 +1,24 @@
 import { Text, View } from 'react-native';
 import React, { useState } from 'react';
-import { useAddressStore } from '../../store/useAddressStore';
 import SlotSection from './SlotSection';
 import AddressSection from './AddressSection';
 import PaymentMethodSelect from './PaymentMethodSelect';
+import { Address } from '../../types/address';
 import { PaymentMethod } from '../../types/common';
 
 type Props = {
   onAddressChangeBtnClick: () => void;
+  selectedAddress: Address;
+  paymentMethod: PaymentMethod;
+  onPaymentMethodChange: (method: PaymentMethod) => void;
 };
 
-export default function Header({ onAddressChangeBtnClick }: Props) {
-  const addresses = useAddressStore(state => state.addresses);
-  const selectedAddressId = useAddressStore(state => state.selectedAddressId);
+export default function Header({
+  onAddressChangeBtnClick,
+  selectedAddress,
+  paymentMethod,
+  onPaymentMethodChange,
+}: Props) {
   const [notes, setNotes] = useState('');
   const [deliverySlot, setDeliverySlot] = useState('ASAP');
 
@@ -23,9 +29,7 @@ export default function Header({ onAddressChangeBtnClick }: Props) {
     'Tomorrow 6-8 PM',
     'Tomorrow 9-11 PM',
   ];
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('ONLINE');
-  const selectedAddress =
-    addresses.find(a => a.id === selectedAddressId) ?? addresses[0];
+
   return (
     <View>
       <AddressSection
@@ -41,9 +45,7 @@ export default function Header({ onAddressChangeBtnClick }: Props) {
       />
       <PaymentMethodSelect
         paymentMethod={paymentMethod}
-        onPaymentMethodChange={(method: PaymentMethod) =>
-          setPaymentMethod(method)
-        }
+        onPaymentMethodChange={onPaymentMethodChange}
       />
       <Text className="text-gray-700 font-semibold mt-6 mb-3">
         Order Summary

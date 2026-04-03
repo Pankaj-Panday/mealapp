@@ -1,5 +1,6 @@
 import { Category } from './category';
 import { PaginationMeta } from './common';
+import { OrderData, RazorpayOrderResponse } from './order';
 import { Product } from './product';
 import { User } from './user';
 
@@ -19,4 +20,15 @@ export type SignUpApiResponse = {
   success: boolean;
   data: User;
   token: string;
+};
+
+export type RazorpayOrderApiResponse = {
+  success: boolean;
+  data: RazorpayOrderResponse;
+};
+
+export type CreateOrderApiResponse = {
+  success: boolean;
+  message: string;
+  data: OrderData;
 };

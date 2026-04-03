@@ -7,6 +7,7 @@ import CartScreen from '../../screens/CartScreen';
 import CheckoutScreen from '../../screens/CheckoutScreen';
 import ProfileScreen from '../../screens/ProfileScreen';
 import AddAddressScreen from '../../screens/AddAddressScreen';
+import OrderConfirmationScreen from '../../screens/OrderConfirmationScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
@@ -23,6 +24,10 @@ export default function MainNavigator() {
       <Stack.Screen name={MainRoutes.Checkout} component={CheckoutScreen} />
       <Stack.Screen name={MainRoutes.Profile} component={ProfileScreen} />
       <Stack.Screen name={MainRoutes.AddAddress} component={AddAddressScreen} />
+      <Stack.Screen
+        name={MainRoutes.OrderConfirmation}
+        component={OrderConfirmationScreen}
+      />
     </Stack.Navigator>
   );
 }
