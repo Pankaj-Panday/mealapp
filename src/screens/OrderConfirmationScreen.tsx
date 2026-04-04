@@ -1,7 +1,7 @@
-import { Text, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { MainRoutes, MainStackParamList } from '../types/routes';
+import { MainRoutes, MainStackParamList, RootRoutes } from '../types/routes';
 import Ionicons from '@react-native-vector-icons/ionicons';
 
 type Props = NativeStackScreenProps<
@@ -24,13 +24,38 @@ export default function OrderConfirmationScreen({ navigation, route }: Props) {
         Your order #{order.id} has been placed successfully.
       </Text>
 
-      <View>
-        <Text>Order Details</Text>
-        <Text>Total: {order.totalAmount.toFixed(2)}</Text>
-        <Text>Items: {order.totalAmount.toFixed(2)}</Text>
-        <Text>Status: {order.totalAmount.toFixed(2)}</Text>
-        <Text>Payment: {order.totalAmount.toFixed(2)}</Text>
+      <View className="w-full bg-gray-50 rounded-lg mb-6 p-4">
+        <Text className="font-semibold mb-2">Order Details</Text>
+        <Text className="text-gray-600 text-sm">
+          Total: {order.totalAmount.toFixed(2)}
+        </Text>
+        <Text className="text-gray-600 text-sm">
+          Items: {order.items.length}
+        </Text>
+        <Text className="text-gray-600 text-sm">Status: {order.status}</Text>
+        <Text className="text-gray-600 text-sm">
+          Payment: {order.paymentMethod}
+        </Text>
       </View>
+
+      <TouchableOpacity
+        className="bg-green-600 py-3 px-6 rounded-full"
+        onPress={() =>
+          navigation.navigate('Tabs', {
+            screen: MainRoutes.Home,
+          })
+        }
+      >
+        <Text className="text-white font-semibold text-base">
+          Continue Shopping
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity className="mt-4">
+        <Text className="text-green-600 font-semibold text-base">
+          View Orders
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }

@@ -32,3 +32,14 @@ export type CreateOrderApiResponse = {
   message: string;
   data: OrderData;
 };
+
+export type GetOrdersApiResponse = {
+  success: boolean;
+  data: OrderData[];
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+};

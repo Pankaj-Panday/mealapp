@@ -16,10 +16,19 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchCategories } from '../api/categories';
 import CategoryCard from '../components/CategoryCard';
 import CategorySkeletonRow from '../components/skeletons/CategorySkeletonRow';
-import { MainRoutes, MainStackParamList } from '../types/routes';
+import {
+  MainRoutes,
+  MainStackParamList,
+  MainTabParamList,
+} from '../types/routes';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { CompositeScreenProps } from '@react-navigation/native';
 
-type Props = NativeStackScreenProps<MainStackParamList, MainRoutes.Home>;
+type Props = CompositeScreenProps<
+  BottomTabScreenProps<MainTabParamList, MainRoutes.Home>,
+  NativeStackScreenProps<MainStackParamList>
+>;
 
 export default function HomeScreen({ navigation, route }: Props) {
   const [query, setQuery] = useState('');

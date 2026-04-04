@@ -35,6 +35,7 @@ export type MainTabParamList = {
 export type MainStackParamList = {
   Tabs: NavigatorScreenParams<MainTabParamList>;
   [MainRoutes.Category]: { categoryId: string };
+  [MainRoutes.Store]: undefined;
   [MainRoutes.Cart]: undefined;
   [MainRoutes.Checkout]: undefined;
   [MainRoutes.Profile]: undefined;

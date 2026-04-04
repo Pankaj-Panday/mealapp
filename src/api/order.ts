@@ -3,6 +3,7 @@ import { ENDPOINTS } from './endpoints';
 import { Order, RazorPayOrder } from '../types/order';
 import {
   CreateOrderApiResponse,
+  GetOrdersApiResponse,
   RazorpayOrderApiResponse,
 } from '../types/apiResponse';
 
@@ -20,7 +21,7 @@ export const createOrder = async (
   return response.data;
 };
 
-export const fetchMyOrders = async () => {
+export const fetchMyOrders = async (): Promise<GetOrdersApiResponse> => {
   const response = await api.get(ENDPOINTS.FETCH_MY_ORDERS);
   return response.data;
 };
