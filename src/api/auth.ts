@@ -1,7 +1,7 @@
 import { api } from './axios';
 import { ENDPOINTS } from './endpoints';
 import { LoginFormValues, SignupFormValues } from '../types/auth';
-import { SignUpApiResponse } from '../types/apiResponse';
+import { LoginApiResponse, SignUpApiResponse } from '../types/apiResponse';
 
 export const signUp = async (
   data: SignupFormValues,
@@ -14,9 +14,20 @@ export const signUp = async (
   }
 };
 
-export const login = async (data: LoginFormValues) => {
+export const login = async (
+  data: LoginFormValues,
+): Promise<LoginApiResponse> => {
   try {
     const response = await api.post(ENDPOINTS.LOGIN, data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const googleLogin = async (idToken: string) => {
+  try {
+    const response = await api.post(ENDPOINTS.GOOGLE_LOGIN, { idToken });
     return response.data;
   } catch (error) {
     throw error;

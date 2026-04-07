@@ -1,4 +1,5 @@
 import {
+  Alert,
   Image,
   Pressable,
   Text,
@@ -11,6 +12,13 @@ import { Controller, useForm } from 'react-hook-form';
 import { LoginFormValues } from '../types/auth';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AuthRoutes, AuthStackParamList } from '../types/routes';
+import { useAuthStore } from '../store/useAuthStore';
+import Logger from '../utils/logger';
+import { login, googleLogin } from '../api/auth';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 
 type Props = NativeStackScreenProps<AuthStackParamList, AuthRoutes.Login>;
 
@@ -21,6 +29,50 @@ export default function LoginScreen({ navigation, route }: Props) {
       password: '',
     },
   });
+
+  const setAuth = useAuthStore(state => state.setAuth);
+
+  const onSubmit = async (data: LoginFormValues) => {
+    try {
+      const { data: user, token } = await login(data);
+      setAuth(user, token);
+    } catch (error) {
+      Logger.error('Login error', error);
+      Alert.alert('Error', 'Failed to login');
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      await GoogleSignin.hasPlayServices({
+        showPlayServicesUpdateDialog: true,
+      });
+      const userInfo = await GoogleSignin.signIn();
+      if (userInfo.type === 'success' && userInfo.data.idToken) {
+        const { data: user, token } = await googleLogin(
+          userInfo?.data?.idToken,
+        );
+      } else {
+        throw new Error('Failed to sign in with Google');
+      }
+    } catch (error: any) {
+      Logger.error('Google Sign-In error', {
+        message: error?.message,
+        code: error?.code,
+        stack: error?.stack,
+      });
+
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        Alert.alert('Cancelled', 'Google sign-in was cancelled');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        Alert.alert('Error', 'Google sign-in is already in progress');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        Alert.alert('Error', 'Google Play Services is not available');
+      } else {
+        Alert.alert('Error', `Google sign-in failed: ${error.message}`);
+      }
+    }
+  };
 
   return (
     <View className="flex-1 bg-white p-4 justify-center">
@@ -67,11 +119,17 @@ export default function LoginScreen({ navigation, route }: Props) {
         )}
       />
 
-      <TouchableOpacity className="bg-green-600 p-3 rounded-full mt-6">
+      <TouchableOpacity
+        onPress={handleSubmit(onSubmit)}
+        className="bg-green-600 p-3 rounded-full mt-6"
+      >
         <Text className="text-white text-center font-bold">CONTINUE</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity className="bg-white border border-gray-300 p-3 rounded-full mt-4 flex-row justify-center">
+      <TouchableOpacity
+        onPress={handleGoogleLogin}
+        className="bg-white border border-gray-300 p-3 rounded-full mt-4 flex-row justify-center"
+      >
         <Image
           source={{
             uri: 'https://www.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png',

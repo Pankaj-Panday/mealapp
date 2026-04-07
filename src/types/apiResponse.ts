@@ -22,6 +22,12 @@ export type SignUpApiResponse = {
   token: string;
 };
 
+export type LoginApiResponse = {
+  success: boolean;
+  data: User;
+  token: string;
+};
+
 export type RazorpayOrderApiResponse = {
   success: boolean;
   data: RazorpayOrderResponse;
