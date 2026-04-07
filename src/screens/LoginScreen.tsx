@@ -22,6 +22,11 @@ import {
 
 type Props = NativeStackScreenProps<AuthStackParamList, AuthRoutes.Login>;
 
+GoogleSignin.configure({
+  webClientId: '',
+  scopes: ['profile', 'email'],
+});
+
 export default function LoginScreen({ navigation, route }: Props) {
   const { control, handleSubmit } = useForm<LoginFormValues>({
     defaultValues: {
