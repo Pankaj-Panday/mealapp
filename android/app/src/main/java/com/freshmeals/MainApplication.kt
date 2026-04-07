@@ -1,4 +1,4 @@
-package com.tempapp
+package com.freshmeals
 
 import android.app.Application
 import com.facebook.react.PackageList
