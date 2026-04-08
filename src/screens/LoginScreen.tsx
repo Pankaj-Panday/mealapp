@@ -19,11 +19,12 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import { GOOGLE_CLIENT_ID } from '@env';
 
 type Props = NativeStackScreenProps<AuthStackParamList, AuthRoutes.Login>;
 
 GoogleSignin.configure({
-  webClientId: '',
+  webClientId: GOOGLE_CLIENT_ID,
   scopes: ['profile', 'email'],
 });
 
@@ -57,6 +58,7 @@ export default function LoginScreen({ navigation, route }: Props) {
         const { data: user, token } = await googleLogin(
           userInfo?.data?.idToken,
         );
+        setAuth(user, token);
       } else {
         throw new Error('Failed to sign in with Google');
       }
