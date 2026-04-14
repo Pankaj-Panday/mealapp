@@ -53,6 +53,7 @@ export default function LoginScreen({ navigation, route }: Props) {
       await GoogleSignin.hasPlayServices({
         showPlayServicesUpdateDialog: true,
       });
+      await GoogleSignin.signOut();
       const userInfo = await GoogleSignin.signIn();
       if (userInfo.type === 'success' && userInfo.data.idToken) {
         const { data: user, token } = await googleLogin(

@@ -16,7 +16,7 @@ export default function QuantityStepper({
 }: Props) {
   return (
     <View
-      className={`flex-1 relative h-[34px] flex-row items-center justify-center px-2 rounded-full border border-emerald-100 bg-emerald-50 ${containerClassName}`}
+      className={`relative h-[34px] flex-row items-center justify-center px-2 rounded-full border border-emerald-100 bg-emerald-50 ${containerClassName}`}
     >
       <Pressable
         onPress={onDecrement}

@@ -1,97 +1,129 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# FreshMeals
 
-# Getting Started
+FreshMeals is a mobile e-commerce application built with React Native for ordering fresh food and groceries. It features a modern user interface, robust state management, and a complete checkout and payment flow.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Demo
 
-## Step 1: Start Metro
+![FreshMeals App Demo](assets/demo/demo.gif)
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## Screenshots
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+| Login                       | Home                       | Category                       |
+| --------------------------- | -------------------------- | ------------------------------ |
+| ![](assets/demo/login.jpeg) | ![](assets/demo/home.jpeg) | ![](assets/demo/category.jpeg) |
 
-```sh
-# Using npm
-npm start
+| Category Select                       | Cart                       | Address                       |
+| ------------------------------------- | -------------------------- | ----------------------------- |
+| ![](assets/demo/category-select.jpeg) | ![](assets/demo/cart.jpeg) | ![](assets/demo/address.jpeg) |
 
-# OR using Yarn
-yarn start
+| Add Address                       | My Orders                       | Profile                       |
+| --------------------------------- | ------------------------------- | ----------------------------- |
+| ![](assets/demo/add-address.jpeg) | ![](assets/demo/my-orders.jpeg) | ![](assets/demo/profile.jpeg) |
+
+## Features
+
+- **User Authentication**: Secure sign-up, login, and Google Sign-in functionality.
+- **Product Discovery**: Browse products by category, search for specific items, and view exclusive deals.
+- **Shopping Cart**: Add/remove items, update quantities, and view cart totals.
+- **Address Management**: Add, select, and manage multiple delivery addresses.
+- **Checkout Flow**: A multi-step checkout process including address selection, delivery slot choice, and payment method selection.
+- **Payment Integration**: Supports both Cash on Delivery (COD) and Online Payments via Razorpay.
+- **Order History**: View a list of past orders with their status, items, and delivery details.
+- **Profile Management**: View user details and log out.
+
+## Tech Stack
+
+- **Framework**: React Native
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS with NativeWind
+- **State Management**: Zustand
+- **Data Fetching & Caching**: TanStack Query (React Query)
+- **Navigation**: React Navigation (Stack & Tabs)
+- **API Client**: Axios
+- **Form Handling**: React Hook Form
+- **Authentication**: `@react-native-google-signin/google-signin`
+- **Payments**: `react-native-razorpay`
+
+## Project Structure
+
+The codebase is organized into a modular and scalable structure within the `src` directory:
+
+```
+src/
+├── api/          # API layer for services, endpoints, and Axios configuration.
+├── components/   # Reusable UI components.
+├── navigation/   # Navigation logic, stacks, and tab navigators.
+├── screens/      # Top-level screen components.
+├── store/        # Global state management with Zustand stores.
+├── types/        # TypeScript type definitions and interfaces.
+└── utils/        # Utility functions and helpers.
 ```
 
-## Step 2: Build and run your app
+## Getting Started
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+Follow these instructions to get the project up and running on your local machine.
 
-### Android
+### Prerequisites
 
-```sh
-# Using npm
-npm run android
+- Node.js (>= 20)
+- Watchman
+- React Native CLI
+- JDK
+- Android Studio (for Android) / Xcode (for iOS)
 
-# OR using Yarn
-yarn android
-```
+Please follow the official [React Native environment setup guide](https://reactnative.dev/docs/environment-setup) for detailed instructions.
 
-### iOS
+### Installation & Setup
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+1.  **Clone the repository:**
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+    ```bash
+    git clone https://github.com/pankaj-panday/mealapp.git
+    cd mealapp
+    ```
 
-```sh
-bundle install
-```
+2.  **Install dependencies:**
 
-Then, and every time you update your native dependencies, run:
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
 
-```sh
-bundle exec pod install
-```
+3.  **Set up environment variables:**
+    Create a `.env` file in the root directory of the project and add the following environment variables. Replace the placeholder values with your actual keys.
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+    ```env
+    API_BASE_URL=http://your-backend-api-url
+    RAZORPAY_KEY_ID=your_razorpay_key_id
+    RAZORPAY_KEY_SECRET=your_razorpay_key_secret
+    GOOGLE_CLIENT_ID=your_google_web_client_id
+    GOOGLE_CLIENT_ID_ANDROID=your_google_android_client_id
+    ```
 
-```sh
-# Using npm
-npm run ios
+4.  **For iOS only, install Pods:**
+    ```bash
+    cd ios && pod install
+    ```
 
-# OR using Yarn
-yarn ios
-```
+### Running the Application
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+1.  **Start the Metro bundler:**
+    Open a terminal in the project root and run:
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+    ```bash
+    npm start
+    ```
 
-## Step 3: Modify your app
+2.  **Run on a device or emulator:**
+    Open a second terminal and run one of the following commands:
+    - **For Android:**
 
-Now that you have successfully run the app, let's make changes!
+      ```bash
+      npm run android
+      ```
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+    - **For iOS:**
+      ```bash
+      npm run ios
+      ```
